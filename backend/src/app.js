@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import goalRoutes from './routes/goalRoutes.js';
+import menuRoutes from './routes/menuRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import errorHandler from './middleware/errorHandler.js';
 import connectDB from './config/db.js';
@@ -16,20 +16,24 @@ const app = express();
 app.set('json spaces', 2);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/api/goals', goalRoutes);
+app.use('/api/menu', menuRoutes);
 app.use('/api/users', userRoutes);
 
 // Serve Frontend
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../../frontend/build')));
-  app.get(/.*/, (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../../frontend/build/index.html'));
-  });
-} else {
-  app.get('*', (req, res) => {
-    res.status(404).send('Please set to production');
-  });
-}
+//if (process.env.NODE_ENV === 'production') {
+// app.use(express.static(path.join(__dirname, '../../frontend/build')));
+// app.get(/.*/, (req, res) => {
+//   res.sendFile(path.resolve(__dirname, '../../frontend/build/index.html'));
+// });
+//}
+// else {
+//app.get('*', (req, res) => {
+// res.status(404).send('Please set to production');
+// });
+//}
+app.get('/', (req, res) => {
+  res.send('API is running...');
+});
 app.use(errorHandler);
 
 export default app;

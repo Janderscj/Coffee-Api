@@ -1,17 +1,19 @@
 // Custom error handler middleware
 const errorHandler = (err, req, res, next) => {
-  // Set status code to 500 if not already set
-  const statusCode = res.statusCode ? res.statusCode : 500;
+  // If response status not set, treat as server error
+  let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+
+  if (err.name === 'ValidationError' || err.name === 'CastError') {
+    statusCode = 400;
+  }
+
+  console.error(err);
+
   // Respond with status code, error message, and stack trace if not in production
-  res.status(statusCode);
-  res.json({
+  res.status(statusCode).json({
     message: err.message,
     stack: process.env.NODE_ENV === 'production' ? null : err.stack,
   });
-  // Log the error to the console for debugging
-  console.error(err);
-  // Pass the error to the next middleware
-  next();
 };
 
 export default errorHandler;

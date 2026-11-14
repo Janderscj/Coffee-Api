@@ -7,7 +7,11 @@ import User from '../models/userModel.js';
 // @route   POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body || { name: '', email: '', password: '' };
+  const { name, email, password } = req.body || {
+    name: '',
+    email: '',
+    password: '',
+  };
 
   // Validate input fields
   if (!name || !email || !password) {
