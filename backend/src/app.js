@@ -31,9 +31,6 @@ app.use('/api/users', userRoutes);
 // res.status(404).send('Please set to production');
 // });
 //}
-app.get('/', (req, res) => {
-  res.send('API is running...');
-});
 app.use(errorHandler);
 
 export default app;

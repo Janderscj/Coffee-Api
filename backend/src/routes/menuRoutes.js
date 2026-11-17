@@ -11,7 +11,7 @@ import { protect, authorize } from '../middleware/authMiddleware.js';
 const router = express.Router();
 
 // Menu Items API endpoints
-router.route('/').get(protect, getMenuItems).post(protect, authorize('admin'), setMenuItem);
+router.route('/').get(getMenuItems).post(protect, authorize('admin'), setMenuItem);
 router.route('/all').get(protect, authorize('admin'), getAllMenuItems);
 
 router
