@@ -1,8 +1,8 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import menuRoutes from './routes/menuRoutes.js';
-import userRoutes from './routes/userRoutes.js';
+import menuRoutes from './routes/menu.Routes.js';
+import userRoutes from './routes/user.Routes.js';
 import errorHandler from './middleware/errorHandler.js';
 import connectDB from './config/db.js';
 

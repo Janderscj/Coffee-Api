@@ -1,5 +1,6 @@
-import jwt from 'jsonwebtoken';
-import User from '../models/userModel.js';
+import { verifyToken } from '../services/token.service.js';
+import User from '../models/user.Model.js';
+import logger from '../config/logger.js';
 
 const protect = async (req, res, next) => {
   const header = req.headers.authorization;
@@ -10,10 +11,12 @@ const protect = async (req, res, next) => {
 
   let decoded;
   try {
-    decoded = jwt.verify(header.split(' ')[1], process.env.JWT_SECRET);
+    const token = header.split(' ')[1];
+    decoded = verifyToken(token);
   } catch (error) {
+    logger.error('Token verification failed', error);
     res.status(401);
-    throw new Error('Not authorized, token failed', { cause: error });
+    throw new Error('Not authorized, token failed');
   }
 
   // get user from decoded token
@@ -24,6 +27,7 @@ const protect = async (req, res, next) => {
   }
   next();
 };
+
 const authorize =
   (...roles) =>
   (req, res, next) => {

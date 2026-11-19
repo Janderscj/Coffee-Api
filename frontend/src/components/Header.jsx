@@ -42,7 +42,7 @@ function Header() {
         ) : (
           <li>
             <button className="btn" onClick={onLogin}>
-              Staff login
+              Login
             </button>
           </li>
         )}

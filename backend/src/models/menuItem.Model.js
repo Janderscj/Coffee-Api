@@ -18,7 +18,7 @@ const menuItemSchema = mongoose.Schema(
     },
     category: {
       type: String,
-      enum: ['Espresso', 'Hot', 'Iced', 'Tea', 'Pastry'],
+      enum: ['Espresso', 'Hot', 'Iced', 'Tea', 'Protein', 'Caffeine Free', 'Pastry'],
       default: 'Espresso',
     },
     isSpecial: {
