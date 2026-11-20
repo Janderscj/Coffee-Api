@@ -432,4 +432,6 @@ const seedDatabase = async () => {
   }
 };
 
-seedDatabase();
+// Temporarily disabled - switching to 100k entry seed
+// seedDatabase();
+console.log('Menu seed script disabled temporarily');

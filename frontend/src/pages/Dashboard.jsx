@@ -7,8 +7,8 @@ import {
   updateMenuItem,
   deleteMenuItem,
   reset,
-} from '../features/menu/menuSlice';
-import { CATEGORIES } from '../constants/categories';
+} from '../features/menu/menuSlice.js';
+import { CATEGORIES } from '../constants/categories.js';
 
 const emptyForm = {
   name: '',

@@ -1,14 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMenu, reset } from '../features/menu/menuSlice';
 import { CATEGORIES } from '../constants/categories';
 import MenuItemCard from '../components/MenuItemCard';
 import './Menu.css';
 
+const CATEGORY_ICONS = {
+  Specials: '⭐',
+  Espresso: '☕',
+  Hot: '🔥',
+  Iced: '🧊',
+  Tea: '🫖',
+  Protein: '💪',
+  'Caffeine Free': '☘️',
+  Pastry: '🧁',
+};
+
 function Menu() {
   const dispatch = useDispatch();
   const { items, isLoading, isError, message } = useSelector(state => state.menu);
-  const [selectedCategory, setSelectedCategory] = useState('Specials');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     dispatch(getMenu());
@@ -17,20 +29,28 @@ function Menu() {
     };
   }, [dispatch]);
 
+  const query = searchQuery.trim().toLowerCase();
+  const hasSpecials = items.some(item => item.isSpecial);
+
+  const displayedItems = useMemo(() => {
+    // Searching looks at the whole menu; otherwise show the selected tab
+    if (query) {
+      return items.filter(
+        item =>
+          item.name.toLowerCase().includes(query) ||
+          (item.description || '').toLowerCase().includes(query)
+      );
+    }
+    if (selectedCategory === 'All') return items;
+    if (selectedCategory === 'Specials') return items.filter(item => item.isSpecial);
+    return items.filter(item => item.category === selectedCategory);
+  }, [items, selectedCategory, query]);
+
   if (isLoading) return <p>Loading menu...</p>;
   if (isError) return <p>Couldn't load the menu: {message}</p>;
   if (items.length === 0) return <p>The menu is empty right now. Check back soon!</p>;
 
-  const specials = items.filter(item => item.isSpecial);
-
-  const getDisplayedItems = () => {
-    if (selectedCategory === 'Specials') {
-      return specials;
-    }
-    return items.filter(item => item.category === selectedCategory);
-  };
-
-  const displayedItems = getDisplayedItems();
+  const tabs = ['All', ...(hasSpecials ? ['Specials'] : []), ...CATEGORIES];
 
   return (
     <>
@@ -40,43 +60,51 @@ function Menu() {
       </header>
 
       <div className="menu-container">
-        {/* Sidebar */}
         <aside className="menu-sidebar">
           <nav className="category-nav">
-            <button
-              className={`category-btn ${selectedCategory === 'Specials' ? 'active' : ''}`}
-              onClick={() => setSelectedCategory('Specials')}
-            >
-              <span className="category-icon">⭐</span>
-              Specials
-            </button>
-
-            {CATEGORIES.map(category => (
+            {tabs.map(tab => (
               <button
-                key={category}
-                className={`category-btn ${selectedCategory === category ? 'active' : ''}`}
-                onClick={() => setSelectedCategory(category)}
+                key={tab}
+                className={`category-btn ${selectedCategory === tab && !query ? 'active' : ''}`}
+                aria-pressed={selectedCategory === tab && !query}
+                onClick={() => {
+                  setSelectedCategory(tab);
+                  setSearchQuery('');
+                }}
               >
-                <span className="category-icon">
-                  {category === 'Espresso' && '☕'}
-                  {category === 'Hot' && '🔥'}
-                  {category === 'Iced' && '🧊'}
-                  {category === 'Tea' && '🫖'}
-                  {category === 'Protein' && '💪'}
-                  {category === 'Caffeine Free' && '☘️'}
-                  {category === 'Pastry' && '🧁'}
-                </span>
-                {category}
+                {CATEGORY_ICONS[tab] && (
+                  <span className="category-icon">{CATEGORY_ICONS[tab]}</span>
+                )}
+                {tab}
               </button>
             ))}
           </nav>
         </aside>
 
-        {/* Main Content */}
         <main className="menu-content">
           <div className="menu-header">
-            <h2>{selectedCategory}</h2>
+            <h2>{query ? `Results for "${searchQuery.trim()}"` : selectedCategory}</h2>
             <p>{displayedItems.length} items</p>
+          </div>
+
+          <div className="menu-search">
+            <input
+              type="text"
+              placeholder="Search menu items..."
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              className="search-input"
+              aria-label="Search menu items"
+            />
+            {searchQuery && (
+              <button
+                className="search-clear"
+                onClick={() => setSearchQuery('')}
+                aria-label="Clear search"
+              >
+                ✕
+              </button>
+            )}
           </div>
 
           {displayedItems.length > 0 ? (
@@ -87,7 +115,7 @@ function Menu() {
             </div>
           ) : (
             <div className="empty-message">
-              <p>No items available in this category</p>
+              <p>{query ? 'No items match your search' : 'No items available in this category'}</p>
             </div>
           )}
         </main>

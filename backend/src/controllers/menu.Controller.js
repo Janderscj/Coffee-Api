@@ -7,6 +7,7 @@ import {
   getAllMenuItems,
   getMenuItems,
   updateMenuItem,
+  browseMenuItems,
 } from '../services/menu.service.js';
 
 // @desc Get available menu items
@@ -55,10 +56,26 @@ const deleteMenuItemController = handleAsyncErrors(async (req, res) => {
 // @desc Search menu items by query
 // @route GET /api/menu/search
 // @access Public
-const searchMenuController = handleAsyncErrors(async (req, res) => {
+const searchMenuItemsController = handleAsyncErrors(async (req, res) => {
   const { query } = req.query;
   const menuItems = await searchMenuItems(query);
   res.status(200).json(menuItems);
+});
+
+// @desc    Browse menu items with filtering and pagination
+// @route   GET /api/menu/browse
+// @access  Private (admin)
+const browseMenuItemsController = handleAsyncErrors(async (req, res) => {
+  const page = Math.max(parseInt(req.query.page) || 1, 1);
+  const limit = Math.min(Math.max(parseInt(req.query.limit) || 20, 1), 50);
+
+  const { items, hasMore } = await browseMenuItems({
+    category: req.query.category,
+    page,
+    limit,
+  });
+
+  res.status(200).json({ items, page, limit, hasMore });
 });
 
 export {
@@ -67,5 +84,6 @@ export {
   createMenuItemController,
   updateMenuItemController,
   deleteMenuItemController,
-  searchMenuController,
+  searchMenuItemsController,
+  browseMenuItemsController,
 };

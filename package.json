@@ -32,11 +32,14 @@
     "jsonwebtoken": "^9.0.3",
     "logger": "^0.0.1",
     "mongoose": "^9.12.0",
+    "redis": "^6.3.1",
     "winston": "^3.19.0",
     "zod": "^4.6.7"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
+    "@faker-js/faker": "^10.6.0",
+    "autocannon": "^9.0.0",
     "concurrently": "^10.0.7",
     "eslint": "^9.39.5",
     "eslint-config-prettier": "^10.1.8",

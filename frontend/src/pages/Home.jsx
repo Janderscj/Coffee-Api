@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getMenu, reset } from '../features/menu/menuSlice';
-import MenuItemCard from '../components/MenuItemCard';
+import { getMenu, reset } from '../features/menu/menuSlice.js';
+import MenuItemCard from '../components/MenuItemCard.jsx';
 import './Home.css';
 
 function Home() {

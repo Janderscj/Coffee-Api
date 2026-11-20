@@ -6,10 +6,16 @@ import {
   updateMenuItemController,
   deleteMenuItemController,
   searchMenuItemsController,
+  browseMenuItemsController,
 } from '../controllers/menu.Controller.js';
 import { protect, authorize } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
+
+// Browse menu items with filtering and pagination
+// GET /api/menu/browse
+// Public access
+router.get('/browse', browseMenuItemsController);
 
 // Menu Items API endpoints
 router

@@ -1,13 +1,23 @@
 import MenuItem from '../models/menuItem.Model.js';
 import mongoose from 'mongoose';
 import logger from '../config/logger.js';
+import { getFromCache, setInCache, deleteFromCache, invalidateMenuCache } from './cach.service.js';
 
 const ALLOWED_FIELDS = ['name', 'description', 'price', 'category', 'isSpecial', 'available'];
 
-// Gets available menu items (not hidden/disabled)
+// Get available menu items
 export const getMenuItems = async () => {
+  const cachedKey = 'menu:available';
+
   try {
-    const menuItems = await MenuItem.find({ available: true });
+    const cachedMenuItems = await getFromCache(cachedKey);
+    if (cachedMenuItems) {
+      logger.info('Returning menu items from cache');
+      return cachedMenuItems;
+    }
+
+    const menuItems = await MenuItem.find({ available: true }).lean();
+    await setInCache(cachedKey, menuItems, 3600);
     return menuItems;
   } catch (e) {
     logger.error(`Failed to get menu items: ${e.message}`);
@@ -35,7 +45,7 @@ export const createMenuItem = async body => {
   }
 };
 
-// Retrieves all menu items including disabled ones
+// Retrieves all menu items including unavailable ones
 export const getAllMenuItems = async () => {
   try {
     const menuItems = await MenuItem.find();
@@ -95,16 +105,73 @@ export const deleteMenuItem = async id => {
   }
 };
 
-// Searches for menu items by query string in name, description, or category
+// Search menu items by query string in name, description, or category
+
+// Escapes special characters in a string for use in a regular expression
+const escapeRegex = str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 export const searchMenuItems = async query => {
+  if (typeof query !== 'string' || !query.trim()) {
+    return [];
+  }
+  const cachedKey = `menu:search:${query.toLowerCase()}`;
+  // Limit the query to 100 characters to prevent overly broad searches
   try {
-    const regex = new RegExp(query, 'i');
+    const cachedMenuItems = await getFromCache(cachedKey);
+    if (cachedMenuItems) {
+      logger.info('Returning search results from cache');
+      return cachedMenuItems;
+    }
+
+    const regex = new RegExp(escapeRegex(query.trim().slice(0, 100)), 'i');
     const menuItems = await MenuItem.find({
+      available: true,
       $or: [{ name: regex }, { description: regex }, { category: regex }],
-    });
+    })
+      .select('-createdAt -updatedAt')
+      .limit(50)
+      .lean();
+
+    await setInCache(cachedKey, menuItems, 3600);
     return menuItems;
   } catch (e) {
     logger.error(`Failed to search menu items: ${e.message}`);
+    throw e;
+  }
+};
+
+// Browse menu items with filtering and pagination
+export const browseMenuItems = async ({ category, page, limit }) => {
+  try {
+    const cacheKey = `menu:browse:${category || 'all'}:${page}:${limit}`;
+    
+    // Try to get from cache
+    const cached = await getFromCache(cacheKey);
+    if (cached) {
+      logger.info(`Browse results served from cache: ${cacheKey}`);
+      return cached;
+    }
+
+    const filter = { available: true };
+    if (category) filter.category = String(category);
+
+    const items = await MenuItem.find(filter)
+      .select('-createdAt -updatedAt')
+      .sort({ price: 1 })
+      .skip((page - 1) * limit)
+      .limit(limit + 1)
+      .lean();
+
+    const result = {
+      items: items.slice(0, limit),
+      hasMore: items.length > limit,
+    };
+
+    // Cache for 30 minutes
+    await setInCache(cacheKey, result, 1800);
+    return result;
+  } catch (e) {
+    logger.error(`Failed to browse menu items: ${e.message}`);
     throw e;
   }
 };
