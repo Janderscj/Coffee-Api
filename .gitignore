@@ -5,5 +5,4 @@ logs/
 dist
 drizzle
 coverage
-.cannon.log
 **.md

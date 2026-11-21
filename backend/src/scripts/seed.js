@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import connectDB from '../config/db.js';
 import { faker } from '@faker-js/faker';
 import MenuItem from '../models/menuItem.Model.js';
-import { CATEGORIES } from '../../../frontend/src/constants/categories.js';
+import { CATEGORIES } from '../utils/categories.js';
 
 const TOTAL = 100_000;
 const BATCH = 5_000;
