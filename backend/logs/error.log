@@ -1,2 +1,6 @@
 {"level":"error","message":"Please add a text field","service":"devops-api","timestamp":"2026-11-06T19:32:21.338Z"}
 {"level":"error","message":"Please add a text field","service":"devops-api","timestamp":"2026-11-06T19:32:39.300Z"}
+{"level":"error","message":"Authentication failed: Invalid email or password","service":"Coffee API","timestamp":"2026-11-20T22:20:56.567Z"}
+{"level":"error","message":"Authentication failed: Invalid email or password","service":"Coffee API","timestamp":"2026-11-20T22:30:30.996Z"}
+{"level":"error","message":"Authentication failed: Invalid email or password","service":"Coffee API","timestamp":"2026-11-20T22:30:37.636Z"}
+{"level":"error","message":"Authentication failed: Invalid email or password","service":"Coffee API","timestamp":"2026-11-20T22:30:41.754Z"}

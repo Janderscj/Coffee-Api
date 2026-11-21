@@ -20,7 +20,7 @@ export const signToken = (payload, options = {}) => {
 };
 
 // Verifies and decodes a JWT token. Returns the decoded payload.
-export const verifyToken = (token) => {
+export const verifyToken = token => {
   try {
     return jwt.verify(token, JWT_SECRET);
   } catch (e) {

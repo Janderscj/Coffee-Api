@@ -2,26 +2,25 @@ import { handleAsyncErrors } from '../middleware/errorHandler.js';
 import logger from '../config/logger.js';
 import {
   createMenuItem,
-  searchMenuItems,
+  browseMenuItems,
   deleteMenuItem,
   getAllMenuItems,
   getMenuItems,
   updateMenuItem,
-  browseMenuItems,
 } from '../services/menu.service.js';
 
 // @desc Get available menu items
 // @route GET /api/menu
 // @access Public
-const getMenuItemsController = handleAsyncErrors(async (req, res) => {
-  const menuItems = await getMenuItems();
-  res.status(200).json(menuItems);
+export const getMenuItemsController = handleAsyncErrors(async (req, res) => {
+  const { json, cache } = await getMenuItems();
+  res.set('X-Cache', cache).status(200).type('json').send(json);
 });
 
 // @desc Get all menu items including disabled ones
 // @route GET /api/menu/all
 // @access Public
-const getAllMenuItemsController = handleAsyncErrors(async (req, res) => {
+export const getAllMenuItemsController = handleAsyncErrors(async (req, res) => {
   const menuItems = await getAllMenuItems();
   res.status(200).json(menuItems);
 });
@@ -29,7 +28,7 @@ const getAllMenuItemsController = handleAsyncErrors(async (req, res) => {
 // @desc Create a new menu item
 // @route POST /api/menu
 // @access Private
-const createMenuItemController = handleAsyncErrors(async (req, res) => {
+export const createMenuItemController = handleAsyncErrors(async (req, res) => {
   const menuItem = await createMenuItem(req.body);
   logger.info(`Menu item created: "${menuItem.name}" by user ${req.user.id}`);
   res.status(201).json(menuItem);
@@ -38,7 +37,7 @@ const createMenuItemController = handleAsyncErrors(async (req, res) => {
 // @desc Update a menu item by ID
 // @route PUT /api/menu/:id
 // @access Private
-const updateMenuItemController = handleAsyncErrors(async (req, res) => {
+export const updateMenuItemController = handleAsyncErrors(async (req, res) => {
   const updatedItem = await updateMenuItem(req.params.id, req.body);
   logger.info(`Menu item updated: "${updatedItem.name}" by user ${req.user.id}`);
   res.status(200).json(updatedItem);
@@ -47,43 +46,16 @@ const updateMenuItemController = handleAsyncErrors(async (req, res) => {
 // @desc Delete a menu item by ID
 // @route DELETE /api/menu/:id
 // @access Private
-const deleteMenuItemController = handleAsyncErrors(async (req, res) => {
+export const deleteMenuItemController = handleAsyncErrors(async (req, res) => {
   const menuItem = await deleteMenuItem(req.params.id);
   logger.info(`Deleted Menu Item: "${menuItem.name}" by user ${req.user.id}`);
   res.status(200).json({ message: `Deleted Menu Item ${req.params.id}`, menuItem });
 });
 
-// @desc Search menu items by query
-// @route GET /api/menu/search
-// @access Public
-const searchMenuItemsController = handleAsyncErrors(async (req, res) => {
-  const { query } = req.query;
-  const menuItems = await searchMenuItems(query);
-  res.status(200).json(menuItems);
-});
-
 // @desc    Browse menu items with filtering and pagination
 // @route   GET /api/menu/browse
-// @access  Private (admin)
-const browseMenuItemsController = handleAsyncErrors(async (req, res) => {
-  const page = Math.max(parseInt(req.query.page) || 1, 1);
-  const limit = Math.min(Math.max(parseInt(req.query.limit) || 20, 1), 50);
-
-  const { items, hasMore } = await browseMenuItems({
-    category: req.query.category,
-    page,
-    limit,
-  });
-
-  res.status(200).json({ items, page, limit, hasMore });
+// @access  Public
+export const browseMenuItemsController = handleAsyncErrors(async (req, res) => {
+  const { json, cache } = await browseMenuItems(req.query);
+  res.set('X-Cache', cache).status(200).type('json').send(json);
 });
-
-export {
-  getMenuItemsController,
-  getAllMenuItemsController,
-  createMenuItemController,
-  updateMenuItemController,
-  deleteMenuItemController,
-  searchMenuItemsController,
-  browseMenuItemsController,
-};

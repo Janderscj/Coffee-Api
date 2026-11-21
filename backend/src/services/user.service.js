@@ -7,14 +7,24 @@ import logger from '../config/logger.js';
 export const authenticateUser = async ({ email, password }) => {
   try {
     if (!email || !password) {
-      throw new Error('Email and password are required');
+      const error = new Error('Email and password are required');
+      error.statusCode = 400;
+      throw error;
     }
 
     const user = await User.findOne({ email });
-    if (!user) throw new Error('Invalid email or password');
+    if (!user) {
+      const error = new Error('Invalid email or password');
+      error.statusCode = 401;
+      throw error;
+    }
 
     const isPasswordValid = await comparePassword(password, user.password);
-    if (!isPasswordValid) throw new Error('Invalid email or password');
+    if (!isPasswordValid) {
+      const error = new Error('Invalid email or password');
+      error.statusCode = 401;
+      throw error;
+    }
 
     const token = signToken({ id: user._id });
 
@@ -36,11 +46,17 @@ export const authenticateUser = async ({ email, password }) => {
 export const registerUser = async ({ name, email, password, role = 'user' }) => {
   try {
     if (!name || !email || !password) {
-      throw new Error('Name, email, and password are required');
+      const error = new Error('Name, email, and password are required');
+      error.statusCode = 400;
+      throw error;
     }
 
     const existingUser = await User.findOne({ email });
-    if (existingUser) throw new Error('User with this email already exists');
+    if (existingUser) {
+      const error = new Error('User with this email already exists');
+      error.statusCode = 400;
+      throw error;
+    }
 
     const hashedPassword = await hashPassword(password);
     const newUser = await User.create({ name, email, password: hashedPassword, role });
@@ -65,7 +81,11 @@ export const registerUser = async ({ name, email, password, role = 'user' }) => 
 export const getUserById = async id => {
   try {
     const user = await User.findById(id).select('-password');
-    if (!user) throw new Error('User not found');
+    if (!user) {
+      const error = new Error('User not found');
+      error.statusCode = 404;
+      throw error;
+    }
     logger.info(`Retrieved user: ${user.email}`);
     return user;
   } catch (e) {

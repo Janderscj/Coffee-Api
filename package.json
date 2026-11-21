@@ -1,19 +1,12 @@
 {
-  "name": "backend",
+  "name": "coffee-api",
   "version": "1.0.0",
   "description": "",
   "main": "backend/src/index.js",
   "scripts": {
-    "start": "node backend/src/index.js",
-    "server": "node --watch backend/src/index.js",
+    "server": "npm run server --prefix backend",
     "client": "npm start --prefix frontend",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "seed": "node backend/src/scripts/seedDatabase.js",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "format": "prettier --write . --ignore-path .prettierignore",
-    "format:check": "prettier --check . --ignore-path .prettierignore",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
@@ -38,8 +31,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",
-    "@faker-js/faker": "^10.6.0",
-    "autocannon": "^9.0.0",
     "concurrently": "^10.0.7",
     "eslint": "^9.39.5",
     "eslint-config-prettier": "^10.1.8",

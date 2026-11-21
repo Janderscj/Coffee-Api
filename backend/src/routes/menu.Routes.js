@@ -5,7 +5,6 @@ import {
   createMenuItemController,
   updateMenuItemController,
   deleteMenuItemController,
-  searchMenuItemsController,
   browseMenuItemsController,
 } from '../controllers/menu.Controller.js';
 import { protect, authorize } from '../middleware/authMiddleware.js';
@@ -24,7 +23,6 @@ router
   .post(protect, authorize('admin'), createMenuItemController);
 
 router.route('/all').get(protect, authorize('admin'), getAllMenuItemsController);
-router.route('/search').get(searchMenuItemsController);
 
 router
   .route('/:id')

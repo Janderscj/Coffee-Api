@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import logger from '../config/logger.js';
 
 // Hashes a password using bcrypt with 10 salt rounds. Returns the hashed password.
-export const hashPassword = async (password) => {
+export const hashPassword = async password => {
   try {
     const salt = await bcrypt.genSalt(10);
     return await bcrypt.hash(password, salt);

@@ -8,9 +8,6 @@ function Header() {
 
   const { user } = useSelector(state => state.auth);
 
-  const onLogin = () => {
-    navigate('/login');
-  };
   const onLogout = () => {
     dispatch(logout());
     dispatch(reset());
@@ -34,17 +31,23 @@ function Header() {
             )}
             <li>
               <button className="btn btn-reverse" onClick={onLogout}>
-                {' '}
                 Logout
               </button>
             </li>
           </>
         ) : (
-          <li>
-            <button className="btn" onClick={onLogin}>
-              Login
-            </button>
-          </li>
+          <>
+            <li>
+              <Link to="/login" className="btn">
+                Login
+              </Link>
+            </li>
+            <li>
+              <Link to="/register" className="btn">
+                Register
+              </Link>
+            </li>
+          </>
         )}
       </ul>
     </header>
