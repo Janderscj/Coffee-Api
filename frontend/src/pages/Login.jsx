@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { login, reset } from '../features/auth/authSlice';
+import { useNavigate, Link } from 'react-router-dom';
+import { login, reset } from '../features/auth/authSlice.js';
 import { toast } from 'react-toastify';
-import Spinner from '../components/spinner';
+import Spinner from '../components/spinner.jsx';
 import { FaSignInAlt } from 'react-icons/fa';
 
 function Login() {
@@ -25,7 +25,11 @@ function Login() {
     }
 
     if (isSuccess || user) {
-      navigate('/');
+      if (user.role === 'admin') {
+        navigate('/admin');
+      } else {
+        navigate('/');
+      }
     }
     dispatch(reset());
   }, [user, isError, isSuccess, message, navigate, dispatch]);
@@ -47,6 +51,11 @@ function Login() {
 
     dispatch(login(userData));
   };
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   return (
     <>
       <section className="heading">
@@ -85,6 +94,9 @@ function Login() {
             </button>
           </div>
         </form>
+        <p className="form-footer">
+          Don't have an account? <Link to="/register">Register here</Link>
+        </p>
       </section>
     </>
   );

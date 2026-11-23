@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import authService from './authService';
+import authService from './authService.js';
 
 // Get user from local storage
 // eslint-disable-next-line no-undef

@@ -1,15 +1,16 @@
-{"level":"info","message":"Goal set successfully","service":"devops-api","timestamp":"2026-11-06T18:10:36.803Z"}
-{"level":"info","message":"Goal set successfully","service":"devops-api","timestamp":"2026-11-06T18:12:37.578Z"}
-{"level":"error","message":"Please add a text field","service":"devops-api","timestamp":"2026-11-06T19:32:21.338Z"}
-{"level":"error","message":"Please add a text field","service":"devops-api","timestamp":"2026-11-06T19:32:39.300Z"}
-{"level":"info","message":"Goal set successfully","service":"devops-api","timestamp":"2026-11-06T19:32:46.496Z"}
-{"level":"info","message":"Goal set successfully","service":"devops-api","timestamp":"2026-11-06T19:35:06.200Z"}
-{"level":"info","message":"Goal set successfully","service":"devops-api","timestamp":"2026-11-06T19:35:33.425Z"}
-{"level":"info","message":"Goal set successfully","service":"devops-api","timestamp":"2026-11-06T19:39:44.538Z"}
-{"level":"info","message":"Goal set successfully","service":"devops-api","timestamp":"2026-11-06T19:40:26.884Z"}
-{"level":"info","message":"Goal set successfully","service":"devops-api","timestamp":"2026-11-06T19:45:46.034Z"}
-{"level":"info","message":"Goal set successfully","service":"devops-api","timestamp":"2026-11-06T19:47:19.748Z"}
-{"level":"info","message":"Goal set successfully","service":"devops-api","timestamp":"2026-11-09T21:32:05.898Z"}
-{"level":"info","message":"Goal set successfully","service":"devops-api","timestamp":"2026-11-09T21:33:14.437Z"}
-{"level":"info","message":"Goal set successfully","service":"devops-api","timestamp":"2026-11-09T21:42:51.890Z"}
-{"level":"info","message":"Goal set successfully","service":"devops-api","timestamp":"2026-11-09T21:42:56.990Z"}
+
+{"level":"error","message":"Authentication failed: Invalid email or password","service":"Coffee API","timestamp":"2026-11-20T22:20:56.567Z"}
+{"level":"info","message":"User admin@coffee.com registered successfully","service":"Coffee API","timestamp":"2026-11-20T22:21:55.768Z"}
+{"level":"error","message":"Authentication failed: Invalid email or password","service":"Coffee API","timestamp":"2026-11-20T22:30:30.996Z"}
+{"level":"error","message":"Authentication failed: Invalid email or password","service":"Coffee API","timestamp":"2026-11-20T22:30:37.636Z"}
+{"level":"error","message":"Authentication failed: Invalid email or password","service":"Coffee API","timestamp":"2026-11-20T22:30:41.754Z"}
+{"level":"info","message":"User admin@coffee.com authenticated successfully","service":"Coffee API","timestamp":"2026-11-20T22:30:46.504Z"}
+{"level":"info","message":"Returning menu items from cache","service":"Coffee API","timestamp":"2026-11-20T22:32:30.553Z"}
+{"level":"info","message":"Returning menu items from cache","service":"Coffee API","timestamp":"2026-11-20T22:33:00.603Z"}
+{"level":"info","message":"Returning menu items from cache","service":"Coffee API","timestamp":"2026-11-20T22:33:00.829Z"}
+{"level":"info","message":"Returning menu items from cache","service":"Coffee API","timestamp":"2026-11-20T22:33:01.396Z"}
+{"level":"info","message":"Returning menu items from cache","service":"Coffee API","timestamp":"2026-11-20T22:33:01.573Z"}
+{"level":"info","message":"Returning menu items from cache","service":"Coffee API","timestamp":"2026-11-20T22:33:01.802Z"}
+{"level":"info","message":"Returning menu items from cache","service":"Coffee API","timestamp":"2026-11-20T22:33:01.940Z"}
+{"level":"info","message":"User admin@coffee.com authenticated successfully","service":"Coffee API","timestamp":"2026-11-20T22:42:38.309Z"}
+{"level":"info","message":"Returning menu items from cache","service":"Coffee API","timestamp":"2026-11-20T22:42:48.936Z"}
