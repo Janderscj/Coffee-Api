@@ -144,7 +144,7 @@ Single URL, **5 s**, median of 3:
 - **Extra infrastructure and failure mode:** Redis is another service to run and monitor. The app degrades to direct database reads (`BYPASS`) if Redis is unavailable.
 - **Index cost:** the compound index uses extra storage and slightly slows writes. For a menu that is read far more often than it is edited, that is a good trade.
 
-## What has and has not been verified
+## Verifications
 
 Verified in testing: Redis connectivity from the API (via `redis-cli monitor`), `MISS` followed by `HIT` on repeated requests, and the benchmark results above with zero errors. Invalidation after an admin edit (expect `MISS` with the new data and `menu:version` incremented), and the Redis-down fallback (expect `X-Cache: BYPASS` and normal responses).
 
