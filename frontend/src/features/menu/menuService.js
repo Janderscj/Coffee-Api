@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = '/api/menu/';
+const API_URL = `${process.env.REACT_APP_API_URL}/api/menu/`;
 
 // Get menu items
 const getMenu = async () => {

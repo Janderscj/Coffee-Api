@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import MenuItem from '../models/menuItemModel.js';
+import MenuItem from '../models/menuItem.Model.js';
 import connectDB from '../config/db.js';
 
 dotenv.config();
@@ -10,7 +10,7 @@ const seedData = [
   {
     name: 'Espresso',
     description: 'Bold and rich single shot of espresso',
-    price: 2.50,
+    price: 2.5,
     category: 'Espresso',
     isSpecial: false,
     available: true,
@@ -18,7 +18,7 @@ const seedData = [
   {
     name: 'Double Espresso',
     description: 'Two shots of espresso for extra strength',
-    price: 3.00,
+    price: 3.0,
     category: 'Espresso',
     isSpecial: false,
     available: true,
@@ -58,7 +58,7 @@ const seedData = [
   {
     name: 'Red Eye',
     description: 'Americano with an espresso shot',
-    price: 3.50,
+    price: 3.5,
     category: 'Espresso',
     isSpecial: true,
     available: true,
@@ -68,7 +68,7 @@ const seedData = [
   {
     name: 'Cappuccino',
     description: 'Espresso with equal parts steamed milk and foam',
-    price: 4.00,
+    price: 4.0,
     category: 'Hot',
     isSpecial: false,
     available: true,
@@ -76,7 +76,7 @@ const seedData = [
   {
     name: 'Latte',
     description: 'Espresso with steamed milk and light foam',
-    price: 4.00,
+    price: 4.0,
     category: 'Hot',
     isSpecial: false,
     available: true,
@@ -84,7 +84,7 @@ const seedData = [
   {
     name: 'Mocha',
     description: 'Espresso with steamed milk and chocolate',
-    price: 4.50,
+    price: 4.5,
     category: 'Hot',
     isSpecial: true,
     available: true,
@@ -124,7 +124,7 @@ const seedData = [
   {
     name: 'Affogato',
     description: 'Espresso poured over vanilla ice cream',
-    price: 4.50,
+    price: 4.5,
     category: 'Hot',
     isSpecial: true,
     available: true,
@@ -134,7 +134,7 @@ const seedData = [
   {
     name: 'Iced Coffee',
     description: 'Cold brew coffee over ice',
-    price: 3.00,
+    price: 3.0,
     category: 'Iced',
     isSpecial: false,
     available: true,
@@ -142,7 +142,7 @@ const seedData = [
   {
     name: 'Iced Latte',
     description: 'Espresso with cold milk over ice',
-    price: 4.00,
+    price: 4.0,
     category: 'Iced',
     isSpecial: false,
     available: true,
@@ -150,7 +150,7 @@ const seedData = [
   {
     name: 'Iced Cappuccino',
     description: 'Espresso with cold milk and foam over ice',
-    price: 4.00,
+    price: 4.0,
     category: 'Iced',
     isSpecial: false,
     available: true,
@@ -158,7 +158,7 @@ const seedData = [
   {
     name: 'Iced Mocha',
     description: 'Espresso with cold milk and chocolate over ice',
-    price: 4.50,
+    price: 4.5,
     category: 'Iced',
     isSpecial: true,
     available: true,
@@ -166,7 +166,7 @@ const seedData = [
   {
     name: 'Iced Vanilla Latte',
     description: 'Iced latte with vanilla syrup',
-    price: 4.50,
+    price: 4.5,
     category: 'Iced',
     isSpecial: false,
     available: true,
@@ -174,7 +174,7 @@ const seedData = [
   {
     name: 'Iced Caramel Latte',
     description: 'Iced latte with caramel syrup',
-    price: 4.50,
+    price: 4.5,
     category: 'Iced',
     isSpecial: false,
     available: true,
@@ -182,7 +182,7 @@ const seedData = [
   {
     name: 'Iced Hazelnut Latte',
     description: 'Iced latte with hazelnut syrup',
-    price: 4.50,
+    price: 4.5,
     category: 'Iced',
     isSpecial: false,
     available: true,
@@ -216,7 +216,7 @@ const seedData = [
   {
     name: 'Chai Tea Latte',
     description: 'Spiced chai tea with steamed milk',
-    price: 4.00,
+    price: 4.0,
     category: 'Tea',
     isSpecial: false,
     available: true,
@@ -232,7 +232,7 @@ const seedData = [
   {
     name: 'London Fog',
     description: 'Earl Grey tea with vanilla and milk',
-    price: 4.00,
+    price: 4.0,
     category: 'Tea',
     isSpecial: false,
     available: true,
@@ -240,7 +240,7 @@ const seedData = [
   {
     name: 'Matcha Latte',
     description: 'Creamy matcha green tea latte',
-    price: 4.50,
+    price: 4.5,
     category: 'Tea',
     isSpecial: true,
     available: true,
@@ -250,7 +250,7 @@ const seedData = [
   {
     name: 'Protein Coffee',
     description: 'Latte with added protein powder',
-    price: 5.00,
+    price: 5.0,
     category: 'Protein',
     isSpecial: false,
     available: true,
@@ -258,7 +258,7 @@ const seedData = [
   {
     name: 'Protein Shake - Vanilla',
     description: 'Creamy vanilla protein shake',
-    price: 5.50,
+    price: 5.5,
     category: 'Protein',
     isSpecial: false,
     available: true,
@@ -266,7 +266,7 @@ const seedData = [
   {
     name: 'Protein Shake - Chocolate',
     description: 'Rich chocolate protein shake',
-    price: 5.50,
+    price: 5.5,
     category: 'Protein',
     isSpecial: false,
     available: true,
@@ -274,7 +274,7 @@ const seedData = [
   {
     name: 'Protein Shake - Strawberry',
     description: 'Fresh strawberry protein shake',
-    price: 5.50,
+    price: 5.5,
     category: 'Protein',
     isSpecial: false,
     available: true,
@@ -282,7 +282,7 @@ const seedData = [
   {
     name: 'Protein Espresso',
     description: 'Double espresso with protein powder',
-    price: 5.00,
+    price: 5.0,
     category: 'Protein',
     isSpecial: false,
     available: true,
@@ -300,7 +300,7 @@ const seedData = [
   {
     name: 'Decaf Latte',
     description: 'Decaffeinated latte with steamed milk',
-    price: 4.00,
+    price: 4.0,
     category: 'Caffeine Free',
     isSpecial: false,
     available: true,
@@ -308,7 +308,7 @@ const seedData = [
   {
     name: 'Steamed Milk',
     description: 'Hot steamed milk',
-    price: 2.50,
+    price: 2.5,
     category: 'Caffeine Free',
     isSpecial: false,
     available: true,
@@ -316,7 +316,7 @@ const seedData = [
   {
     name: 'Decaf Cappuccino',
     description: 'Decaffeinated cappuccino with foam',
-    price: 4.00,
+    price: 4.0,
     category: 'Caffeine Free',
     isSpecial: false,
     available: true,
@@ -324,7 +324,7 @@ const seedData = [
   {
     name: 'Rooibos Latte',
     description: 'Red rooibos tea with steamed milk',
-    price: 4.00,
+    price: 4.0,
     category: 'Caffeine Free',
     isSpecial: false,
     available: true,
@@ -334,7 +334,7 @@ const seedData = [
   {
     name: 'Croissant',
     description: 'Buttery French croissant',
-    price: 3.50,
+    price: 3.5,
     category: 'Pastry',
     isSpecial: false,
     available: true,
@@ -350,7 +350,7 @@ const seedData = [
   {
     name: 'Blueberry Muffin',
     description: 'Fresh blueberry muffin',
-    price: 3.00,
+    price: 3.0,
     category: 'Pastry',
     isSpecial: false,
     available: true,
@@ -358,7 +358,7 @@ const seedData = [
   {
     name: 'Almond Biscotti',
     description: 'Crispy almond biscotti',
-    price: 2.50,
+    price: 2.5,
     category: 'Pastry',
     isSpecial: false,
     available: true,
@@ -366,7 +366,7 @@ const seedData = [
   {
     name: 'Cinnamon Roll',
     description: 'Warm cinnamon roll with frosting',
-    price: 4.00,
+    price: 4.0,
     category: 'Pastry',
     isSpecial: true,
     available: true,
@@ -382,7 +382,7 @@ const seedData = [
   {
     name: 'Lemon Poppy Muffin',
     description: 'Tangy lemon poppy seed muffin',
-    price: 3.00,
+    price: 3.0,
     category: 'Pastry',
     isSpecial: false,
     available: true,
@@ -398,7 +398,7 @@ const seedData = [
   {
     name: 'Danish Pastry',
     description: 'Sweet danish with fruit filling',
-    price: 3.50,
+    price: 3.5,
     category: 'Pastry',
     isSpecial: true,
     available: true,
@@ -411,20 +411,28 @@ const seedData = [
     isSpecial: false,
     available: true,
   },
+  {
+    name: 'Lemonade',
+    description: 'Refreshing lemonade drink',
+    price: 3.75,
+    category: 'Caffeine Free',
+    isSpecial: false,
+    available: true,
+  },
 ];
 
 const seedDatabase = async () => {
   try {
     await connectDB();
-    
+
     // Clear existing items
     await MenuItem.deleteMany({});
     console.log('Cleared existing menu items');
-    
+
     // Insert seed data
     const inserted = await MenuItem.insertMany(seedData);
     console.log(`Successfully seeded database with ${inserted.length} menu items`);
-    
+
     process.exit(0);
   } catch (error) {
     console.error('Error seeding database:', error);
@@ -432,6 +440,4 @@ const seedDatabase = async () => {
   }
 };
 
-// Temporarily disabled - switching to 100k entry seed
-// seedDatabase();
-console.log('Menu seed script disabled temporarily');
+seedDatabase();
