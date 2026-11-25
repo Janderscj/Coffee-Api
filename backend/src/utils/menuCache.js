@@ -1,4 +1,5 @@
 import redis from '../config/redis.js';
+import { cacheRequests } from './metrics.js';
 
 export const VERSION_KEY = 'menu:version';
 export const TTL_SECONDS = 60;
@@ -24,7 +25,10 @@ export const withMenuCache = async (keyParts, fetchFn, ttl = TTL_SECONDS) => {
       const version = (await redis.get(VERSION_KEY)) || '0';
       key = `menu:v${version}:${keyParts.join(':')}`;
       const cached = await redis.get(key);
-      if (cached) return { json: cached, cache: 'HIT' };
+      if (cached) {
+        cacheRequests.inc({ result: 'HIT' });
+        return { json: cached, cache: 'HIT' };
+      }
     } catch (err) {
       console.error('Cache read failed:', err.message);
       key = null;
@@ -41,5 +45,6 @@ export const withMenuCache = async (keyParts, fetchFn, ttl = TTL_SECONDS) => {
     }
   }
 
+  cacheRequests.inc({ result: key ? 'MISS' : 'BYPASS' });
   return { json, cache: key ? 'MISS' : 'BYPASS' };
 };

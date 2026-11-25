@@ -8,7 +8,6 @@ import {
   bumpMenuCache,
   withMenuCache,
 } from '../utils/menuCache.js';
-import redis from '../config/redis.js';
 
 const ALLOWED_FIELDS = ['name', 'description', 'price', 'category', 'isSpecial', 'available'];
 
