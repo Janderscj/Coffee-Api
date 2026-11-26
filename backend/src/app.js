@@ -11,7 +11,7 @@ import menuRoutes from './routes/menu.Routes.js';
 import userRoutes from './routes/user.Routes.js';
 import errorHandler from './middleware/errorHandler.js';
 import connectDB from './config/db.js';
-import { apiLimiter } from './middleware/rateLimit.js';
+import { apiLimiter, authLimiter } from './middleware/rateLimit.js';
 import { healthCheck } from './controllers/health.Controller.js';
 import { register, metricsMiddleware } from './utils/metrics.js';
 // Connect to database
@@ -49,7 +49,7 @@ app.use(metricsMiddleware);
 
 // API routes
 app.use('/api/menu', apiLimiter, menuRoutes);
-app.use('/api/users', apiLimiter, userRoutes);
+app.use('/api/users', authLimiter, userRoutes);
 
 // Serve Frontend
 //if (process.env.NODE_ENV === 'production') {
