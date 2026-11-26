@@ -11,8 +11,9 @@ import menuRoutes from './routes/menu.Routes.js';
 import userRoutes from './routes/user.Routes.js';
 import errorHandler from './middleware/errorHandler.js';
 import connectDB from './config/db.js';
-import { apiLimiter } from './middleware/rateLimit.js';
-
+import { apiLimiter, authLimiter } from './middleware/rateLimit.js';
+import { healthCheck } from './controllers/health.Controller.js';
+import { register, metricsMiddleware } from './utils/metrics.js';
 // Connect to database
 connectDB();
 
@@ -25,19 +26,30 @@ app.use(cors(corsOptions));
 app.set('json spaces', 2);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(morgan('combined', { stream: { write: message => logger.info(message.trim()) } }));
+app.use(
+  morgan('combined', {
+    stream: {
+      skip: req => req.url === '/health' || req.url === '/metrics',
+      write: message => logger.info(message.trim()),
+    },
+  })
+);
 app.use(cookieParser());
 
-// Health check endpoint
-app.get('/health', (req, res) => {
-  res
-    .status(200)
-    .json({ status: 'Healthy', timestamp: new Date().toISOString(), uptime: process.uptime() });
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', register.contentType);
+  res.end(await register.metrics());
 });
+
+// Health check endpoint
+app.get('/health', healthCheck);
+
+// Metrics middleware
+app.use(metricsMiddleware);
 
 // API routes
 app.use('/api/menu', apiLimiter, menuRoutes);
-app.use('/api/users', apiLimiter, userRoutes);
+app.use('/api/users', authLimiter, userRoutes);
 
 // Serve Frontend
 //if (process.env.NODE_ENV === 'production') {
