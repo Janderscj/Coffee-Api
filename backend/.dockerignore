@@ -1,7 +1,5 @@
 node_modules
-logs
-.log*
-dist
-drizzle
+.env
+*.log
 coverage
-**.md
+.git
